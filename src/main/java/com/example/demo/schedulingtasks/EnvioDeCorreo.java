@@ -22,7 +22,7 @@ public class EnvioDeCorreo {
 	
 	@Scheduled(cron="0 0 8 * * *")
 	private void enviarEmail() throws CustomException {
-		/*MimeMessage msg = jms.createMimeMessage();
+		MimeMessage msg = jms.createMimeMessage();
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(msg, true);
 			helper.setTo("javier.azaola@entelgy-ibai.com");
@@ -34,6 +34,6 @@ public class EnvioDeCorreo {
 			LoggerFactory.getLogger(SpringbootApplication.class)
 				.warn(ce.getMessage());
 			throw ce;
-		}*/
+		}
 	}
 }
