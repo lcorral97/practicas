@@ -28,8 +28,12 @@ public class PropertyUtil {
 			throw ce;
 		}
 	}
+	
+	public String getPropiedad(String prop) {
+		return propiedades.getProperty(prop);
+	}
 
-	public String getUrl() {
+	/*public String getUrl() {
 		return propiedades.getProperty("Url");
 	}
 
@@ -43,6 +47,6 @@ public class PropertyUtil {
 
 	public String getDriver() {
 		return propiedades.getProperty("DriverClassName");
-	}
+	}*/
 
 }

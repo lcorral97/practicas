@@ -9,4 +9,5 @@ public interface WeatherService {
 
 	Weather nuevoWeather(Weather w) throws CustomException;
 	List<Weather> getWeathers() throws CustomException;
+	void crearNuevoExcel() throws CustomException;
 }

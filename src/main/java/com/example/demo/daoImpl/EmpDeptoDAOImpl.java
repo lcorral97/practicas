@@ -1,4 +1,4 @@
-package com.example.demo.dao;
+package com.example.demo.daoImpl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.SpringbootApplication;
 import com.example.demo.config.ConexionConfig;
+import com.example.demo.dao.EmpDeptoDAO;
 import com.example.demo.exception.CustomException;
 import com.example.demo.modelo.Departamento;
 import com.example.demo.modelo.Empleado;

@@ -17,7 +17,8 @@ import com.example.demo.exception.CustomException;
 
 @Component
 public class EnvioDeCorreo {
-
+	
+	@Autowired
 	private JavaMailSender jms;
 	
 	@Scheduled(cron="0 0 8 * * *")
@@ -25,9 +26,11 @@ public class EnvioDeCorreo {
 		MimeMessage msg = jms.createMimeMessage();
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(msg, true);
+			helper.setFrom("lander.corral@entelgy-ibai.com");
 			helper.setTo("javier.azaola@entelgy-ibai.com");
-			helper.setSubject("Tiempo metereológico");
-			helper.addAttachment("fichero.xls", new File("fichero.xls"));
+			helper.setSubject("Tiempo meteorológico");
+			helper.setText("");
+			helper.addAttachment("Tiempo Meteorológico", new File("fichero.xls"));
 			jms.send(msg);
 		} catch (MessagingException e) {
 			CustomException ce = new CustomException("Error al crear el mensaje: " + e);

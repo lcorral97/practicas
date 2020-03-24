@@ -1,4 +1,4 @@
-package com.example.demo.dao;
+package com.example.demo.daoImpl;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.example.demo.SpringbootApplication;
 import com.example.demo.config.ConexionConfig;
+import com.example.demo.dao.WeatherDAO;
 import com.example.demo.exception.CustomException;
 import com.example.demo.modelo.Weather;
 
@@ -33,7 +34,7 @@ public class WeatherDAOImpl implements WeatherDAO{
 							+ "values (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			pst.setString(1, w.getObservation_time());
 			pst.setInt(2, w.getTemperature());
-			pst.setString(3, w.getWeather_descriptions());
+			pst.setString(3, w.getWeather_descriptions().get(0));
 			pst.setInt(4, w.getWind_speed());
 			pst.setInt(5, w.getWind_degree());
 			pst.setString(6, w.getWind_direction());
@@ -84,7 +85,9 @@ public class WeatherDAOImpl implements WeatherDAO{
 			w.setId(rst.getInt("id"));
 			w.setObservation_time(rst.getString("observation_time"));
 			w.setTemperature(rst.getInt("temperature"));
-			w.setWeather_descriptions(rst.getString("weather_descriptions"));
+			List<String> weather_descriptions = new ArrayList<>();
+			weather_descriptions.add(rst.getString("weather_descriptions"));
+			w.setWeather_descriptions(weather_descriptions);
 			w.setWind_speed(rst.getInt("wind_speed"));
 			w.setWind_degree(rst.getInt("wind_degree"));
 			w.setWind_direction(rst.getString("wind_dir"));

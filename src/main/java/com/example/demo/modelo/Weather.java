@@ -1,11 +1,13 @@
 package com.example.demo.modelo;
 
+import java.util.List;
+
 public class Weather {
 
 	private int id;
 	private String observation_time;
 	private int temperature;
-	private String weather_descriptions;
+	private List<String> weather_descriptions;
 	private int wind_speed;
 	private int wind_degree;
 	private String wind_direction;
@@ -100,10 +102,10 @@ public class Weather {
 	public void setTemperature(int temperature) {
 		this.temperature = temperature;
 	}
-	public String getWeather_descriptions() {
+	public List<String> getWeather_descriptions() {
 		return weather_descriptions;
 	}
-	public void setWeather_descriptions(String weather_descriptions) {
+	public void setWeather_descriptions(List<String> weather_descriptions) {
 		this.weather_descriptions = weather_descriptions;
 	}
 	public int getWind_speed() {
