@@ -37,7 +37,7 @@ public class WeatherDAOImpl implements WeatherDAO{
 			pst.setString(3, w.getWeather_descriptions().get(0));
 			pst.setInt(4, w.getWind_speed());
 			pst.setInt(5, w.getWind_degree());
-			pst.setString(6, w.getWind_direction());
+			pst.setString(6, w.getWind_dir());
 			pst.setInt(7, w.getPressure());
 			pst.setDouble(8, w.getPrecip());
 			pst.setInt(9, w.getHumidity());
@@ -90,7 +90,7 @@ public class WeatherDAOImpl implements WeatherDAO{
 			w.setWeather_descriptions(weather_descriptions);
 			w.setWind_speed(rst.getInt("wind_speed"));
 			w.setWind_degree(rst.getInt("wind_degree"));
-			w.setWind_direction(rst.getString("wind_dir"));
+			w.setWind_dir(rst.getString("wind_dir"));
 			w.setPressure(rst.getInt("pressure"));
 			w.setPrecip(rst.getDouble("precip"));
 			w.setHumidity(rst.getInt("humidity"));

@@ -10,7 +10,7 @@ public class Weather {
 	private List<String> weather_descriptions;
 	private int wind_speed;
 	private int wind_degree;
-	private String wind_direction;
+	private String wind_dir;
 	private int pressure;
 	private double precip;
 	private int humidity;
@@ -23,7 +23,7 @@ public class Weather {
 	public String toString() {
 		return "Weather [id=" + id + ", observation_time=" + observation_time + ", temperature="
 				+ temperature + ", weather_descriptions=" + weather_descriptions + ", wind_speed=" + wind_speed
-				+ ", wind_degree=" + wind_degree + ", wind_direction=" + wind_direction + ", pressure=" + pressure
+				+ ", wind_degree=" + wind_degree + ", wind_direction=" + wind_dir + ", pressure=" + pressure
 				+ ", precip=" + precip + ", humidity=" + humidity + "]";
 	}
 	public void setId(int id) {
@@ -46,7 +46,7 @@ public class Weather {
 		result = prime * result + temperature;
 		result = prime * result + ((weather_descriptions == null) ? 0 : weather_descriptions.hashCode());
 		result = prime * result + wind_degree;
-		result = prime * result + ((wind_direction == null) ? 0 : wind_direction.hashCode());
+		result = prime * result + ((wind_dir == null) ? 0 : wind_dir.hashCode());
 		result = prime * result + wind_speed;
 		return result;
 	}
@@ -81,10 +81,10 @@ public class Weather {
 			return false;
 		if (wind_degree != other.wind_degree)
 			return false;
-		if (wind_direction == null) {
-			if (other.wind_direction != null)
+		if (wind_dir == null) {
+			if (other.wind_dir != null)
 				return false;
-		} else if (!wind_direction.equals(other.wind_direction))
+		} else if (!wind_dir.equals(other.wind_dir))
 			return false;
 		if (wind_speed != other.wind_speed)
 			return false;
@@ -120,11 +120,11 @@ public class Weather {
 	public void setWind_degree(int wind_degree) {
 		this.wind_degree = wind_degree;
 	}
-	public String getWind_direction() {
-		return wind_direction;
+	public String getWind_dir() {
+		return wind_dir;
 	}
-	public void setWind_direction(String wind_direction) {
-		this.wind_direction = wind_direction;
+	public void setWind_dir(String wind_dir) {
+		this.wind_dir = wind_dir;
 	}
 	public int getPressure() {
 		return pressure;

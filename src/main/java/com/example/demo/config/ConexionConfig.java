@@ -36,7 +36,7 @@ public class ConexionConfig {
 			if (dataSource.getUrl() == null) {
 				throw new CustomException("Url nula");
 			}
-			if (DriverManager.getDriver(dataSource.getConnection().getMetaData().getURL()).getClass().getName() != null) {
+			if (DriverManager.getDriver(dataSource.getConnection().getMetaData().getURL()).getClass().getName() == null) {
 				throw new CustomException("Driver nulo");
 			}
 			return dataSource;

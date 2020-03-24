@@ -75,7 +75,7 @@ public class WeatherServiceImpl implements WeatherService {
 		HSSFCell celdaWind_Degree = fila.createCell(numCelda++);
 		celdaWind_Degree.setCellValue(w.getWind_degree());
 		HSSFCell celdaWind_Direction = fila.createCell(numCelda++);
-		celdaWind_Direction.setCellValue(w.getWind_direction());
+		celdaWind_Direction.setCellValue(w.getWind_dir());
 		HSSFCell celdaPressure = fila.createCell(numCelda++);
 		celdaPressure.setCellValue(w.getPressure());
 		HSSFCell celdaPrecip = fila.createCell(numCelda++);
