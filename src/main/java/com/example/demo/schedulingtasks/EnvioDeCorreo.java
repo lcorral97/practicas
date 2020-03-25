@@ -36,7 +36,7 @@ public class EnvioDeCorreo {
 			CustomException ce = new CustomException("Error al crear el mensaje: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class)
 				.warn(ce.getMessage());
-			throw ce;
+			throw ce; 
 		}
 	}
 }
