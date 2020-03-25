@@ -26,8 +26,8 @@ public class EnvioDeCorreo {
 		MimeMessage msg = jms.createMimeMessage();
 		try {
 			MimeMessageHelper helper = new MimeMessageHelper(msg, true);
-			helper.setFrom("lander.corral@entelgy-ibai.com");
-			helper.setTo("javier.azaola@entelgy-ibai.com");
+			helper.setFrom(" |FROM| ");
+			helper.setTo(" |TO| ");
 			helper.setSubject("Tiempo meteorológico");
 			helper.setText("");
 			helper.addAttachment("Tiempo Meteorológico", new File("fichero.xls"));
