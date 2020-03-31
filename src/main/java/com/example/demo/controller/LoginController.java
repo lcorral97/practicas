@@ -25,7 +25,7 @@ public class LoginController {
 		List<Empleado> emps = empDeptoService.getEmpleados();
 		Empleado empCorrecto = null;
 		for (Empleado e : emps) {
-			String empCod = "Basic" + Base64.getEncoder().encodeToString((e.getNDIEmp() +":" + e.getPassword()).getBytes());
+			String empCod = "Basic " + Base64.getEncoder().encodeToString((e.getNDIEmp() +":" + e.getPassword()).getBytes());
 			if (empCod.equals(auth)) {
 				empCorrecto = e;
 			}
