@@ -82,6 +82,8 @@ public class WeatherServiceImpl implements WeatherService {
 		celdaPrecip.setCellValue(w.getPrecip());
 		HSSFCell celdaHumidity = fila.createCell(numCelda++);
 		celdaHumidity.setCellValue(w.getHumidity());
+		HSSFCell celdaCity = fila.createCell(numCelda++);
+		celdaCity.setCellValue(w.getCity());
 		return numFila;
 	}
 }

@@ -17,7 +17,25 @@ public class Empleado {
 	private String jefeId;    //private Empleado jefe;
 	private String codDepto;  //private Departamento depto;
 	private double comisionE; //private List<Empleado> empleadosSub;
+	private String ciudad;
+	private String password;
 	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	}
+
 	public String getNDIEmp() {
 		return nDIEmp;
 	}
@@ -103,6 +121,7 @@ public class Empleado {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cargoE == null) ? 0 : cargoE.hashCode());
+		result = prime * result + ((ciudad == null) ? 0 : ciudad.hashCode());
 		result = prime * result + ((codDepto == null) ? 0 : codDepto.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(comisionE);
@@ -112,6 +131,7 @@ public class Empleado {
 		result = prime * result + ((jefeId == null) ? 0 : jefeId.hashCode());
 		result = prime * result + ((nDIEmp == null) ? 0 : nDIEmp.hashCode());
 		result = prime * result + ((nomEmp == null) ? 0 : nomEmp.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		temp = Double.doubleToLongBits(salEmp);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + sexEmp;
@@ -131,6 +151,11 @@ public class Empleado {
 			if (other.cargoE != null)
 				return false;
 		} else if (!cargoE.equals(other.cargoE))
+			return false;
+		if (ciudad == null) {
+			if (other.ciudad != null)
+				return false;
+		} else if (!ciudad.equals(other.ciudad))
 			return false;
 		if (codDepto == null) {
 			if (other.codDepto != null)
@@ -164,6 +189,11 @@ public class Empleado {
 				return false;
 		} else if (!nomEmp.equals(other.nomEmp))
 			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
 		if (Double.doubleToLongBits(salEmp) != Double.doubleToLongBits(other.salEmp))
 			return false;
 		if (sexEmp != other.sexEmp)
@@ -175,7 +205,8 @@ public class Empleado {
 	public String toString() {
 		return "Empleado [nDIEmp=" + nDIEmp + ", nomEmp=" + nomEmp + ", sexEmp=" + sexEmp + ", fecNac=" + fecNac
 				+ ", fecIncorporacion=" + fecIncorporacion + ", salEmp=" + salEmp + ", cargoE=" + cargoE + ", jefeId="
-				+ jefeId + ", codDepto=" + codDepto + ", comisionE=" + comisionE + "]";
+				+ jefeId + ", codDepto=" + codDepto + ", comisionE=" + comisionE + ", ciudad=" + ciudad + ", password="
+				+ password + "]";
 	}
 	
 	public Empleado() {

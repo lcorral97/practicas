@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
+//import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +36,14 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Empleado> empleados = null;
 		try {
-			//rst = derbyDataSource.getConnection().createStatement().executeQuery("Select * From sa.Empleados");
-			rst = config.getH2DataSource().getConnection().createStatement().executeQuery("Select * From sa.Empleados");
+			rst = config.getH2DataSource().getConnection().createStatement().executeQuery("Select * From empleados");
 			if (rst != null) {
+				/*ResultSetMetaData rsmd = rst.getMetaData();
+				int i = rsmd.getColumnCount();
+				for (int j = 1; j <= i; j++) {
+					System.out.println(rsmd.getColumnName(j));
+				}*/
+				//Mirar los campos del rst
 				empleados = new ArrayList<>();
 				while (rst.next()) {
 					empleados.add(crearEmpleado(rst));
@@ -45,11 +51,8 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 			}
 			rst.close();
 			config.getH2DataSource().getConnection().close();
-		} catch (NullPointerException e) {
-			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
-			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
-			throw ce;
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
@@ -62,7 +65,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Departamento> deptos = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement().executeQuery("Select * From sa.Departamentos");
+			rst = config.getH2DataSource().getConnection().createStatement().executeQuery("Select * From Departamentos");
 			if (rst != null) {
 				deptos = new ArrayList<>();
 				while (rst.next()) {
@@ -85,7 +88,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		List<Empleado> secretarios = null;
 		try {
 			rst = config.getH2DataSource().getConnection().createStatement()
-					.executeQuery("Select * From sa.Empleados Where Lower(cargoE)='secretaria'");
+					.executeQuery("Select * From Empleados Where Lower(cargoE)='secretaria'");
 			if (rst != null) {
 				secretarios = new ArrayList<>();
 				while (rst.next()) {
@@ -108,7 +111,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		List<Empleado> empleados = null;
 		try {
 			rst = config.getH2DataSource().getConnection().createStatement()
-					.executeQuery("Select nomEmp,salEmp From sa.Empleados");
+					.executeQuery("Select nomEmp,salEmp From Empleados");
 			if (rst != null) {
 				empleados = new ArrayList<>();
 				while (rst.next()) {
@@ -131,7 +134,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		List<Empleado> empleados = null;
 		try {
 			rst = config.getH2DataSource().getConnection().createStatement()
-					.executeQuery("Select * From sa.Empleados Order By nomEmp");
+					.executeQuery("Select * From Empleados Order By nomEmp");
 			if (rst != null) {
 				empleados = new ArrayList<>();
 				while (rst.next()) {
@@ -154,7 +157,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		List<Departamento> deptos = null;
 		try {
 			rst = config.getH2DataSource().getConnection().createStatement()
-					.executeQuery("Select nombreDepto From sa.Departamentos");
+					.executeQuery("Select nombreDepto From Departamentos");
 			if (rst != null) {
 				deptos = new ArrayList<>();
 				while (rst.next()) {
@@ -177,7 +180,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		List<Empleado> empleados = null;
 		try {
 			rst = config.getH2DataSource().getConnection().createStatement()
-					.executeQuery("Select nomEmp,cargoE From sa.Empleados Order By salEmp");
+					.executeQuery("Select nomEmp,cargoE From Empleados Order By salEmp");
 			if (rst != null) {
 				empleados = new ArrayList<>();
 				while (rst.next()) {
@@ -200,7 +203,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		List<Empleado> empleados = null;
 		try {
 			rst = config.getH2DataSource().getConnection().createStatement()
-					.executeQuery("Select salEmp,comisionE From sa.Empleados Where codDepto='2000' Order By comisionE");
+					.executeQuery("Select salEmp,comisionE From Empleados Where codDepto='2000' Order By comisionE");
 			if (rst != null) {
 				empleados = new ArrayList<>();
 				while (rst.next()) {
@@ -222,7 +225,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Empleado> empleados = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement().executeQuery("Select comisionE From sa.Empleados");
+			rst = config.getH2DataSource().getConnection().createStatement().executeQuery("Select comisionE From Empleados");
 			if (rst != null) {
 				empleados = new ArrayList<>();
 				while (rst.next()) {
@@ -253,8 +256,11 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 			e.setJefeId(rst.getString("jefeID"));
 			e.setCodDepto(rst.getString("codDepto"));
 			e.setComisionE(rst.getDouble("comisionE"));
+			e.setPassword(rst.getString("password"));
+			e.setCiudad(rst.getString("ciudad"));
 		} catch (SQLException e1) {
-			CustomException ce = new CustomException("No se pudo crear el empleado");
+			e1.printStackTrace();
+			CustomException ce = new CustomException("No se pudo crear el empleado: " + e1);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
@@ -270,7 +276,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 			d.setCiudad(rst.getString("ciudad"));
 			d.setCodDirector(rst.getString("codDirector"));
 		} catch (SQLException e) {
-			CustomException ce = new CustomException("No se pudo crear el departamento");
+			CustomException ce = new CustomException("No se pudo crear el departamento: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}

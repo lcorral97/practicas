@@ -14,17 +14,24 @@ public class Weather {
 	private int pressure;
 	private double precip;
 	private int humidity;
+	private String city;
 	
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
 	public Weather() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String toString() {
-		return "Weather [id=" + id + ", observation_time=" + observation_time + ", temperature="
-				+ temperature + ", weather_descriptions=" + weather_descriptions + ", wind_speed=" + wind_speed
-				+ ", wind_degree=" + wind_degree + ", wind_direction=" + wind_dir + ", pressure=" + pressure
-				+ ", precip=" + precip + ", humidity=" + humidity + "]";
+		return "Weather [id=" + id + ", observation_time=" + observation_time + ", temperature=" + temperature
+				+ ", weather_descriptions=" + weather_descriptions + ", wind_speed=" + wind_speed + ", wind_degree="
+				+ wind_degree + ", wind_dir=" + wind_dir + ", pressure=" + pressure + ", precip=" + precip
+				+ ", humidity=" + humidity + ", city=" + city + "]";
 	}
 	public void setId(int id) {
 		this.id = id;
@@ -36,6 +43,7 @@ public class Weather {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
 		result = prime * result + humidity;
 		result = prime * result + id;
 		result = prime * result + ((observation_time == null) ? 0 : observation_time.hashCode());
@@ -59,6 +67,11 @@ public class Weather {
 		if (getClass() != obj.getClass())
 			return false;
 		Weather other = (Weather) obj;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
 		if (humidity != other.humidity)
 			return false;
 		if (id != other.id)

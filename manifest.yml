@@ -1,0 +1,6 @@
+---
+applications:
+- name: springboot
+  memory: 1G
+  random-route: true
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git

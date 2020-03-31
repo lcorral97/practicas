@@ -8,13 +8,6 @@ wind_degree integer,
 wind_dir varchar(5),
 pressure integer,
 precip double,
-humidity integer
+humidity integer,
+city varchar(30)
 );
-
-/*Delete From temporal;
-
-Alter table temporal
-alter column id
-restart with 1;*/
-
-Select * From temporal;

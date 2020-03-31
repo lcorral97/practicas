@@ -1,11 +1,11 @@
 package com.example.demo.util;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 
 import com.example.demo.SpringbootApplication;
 import com.example.demo.exception.CustomException;
@@ -14,9 +14,9 @@ public class PropertyUtil {
 
 	private Properties propiedades = new Properties();
 
-	public PropertyUtil(String config) throws CustomException {
+	public PropertyUtil(Resource r) throws CustomException {
 		try {
-			InputStream str = new FileInputStream(config);
+			InputStream str = r.getInputStream();
 			this.propiedades.load(str);
 			/*
 			 * Carga las propiedades de un fichero. La ruta de dicho fichero debe ser

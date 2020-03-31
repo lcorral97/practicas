@@ -27,11 +27,11 @@ public class WeatherDAOImpl implements WeatherDAO{
 	public Weather nuevoWeather(Weather w) throws CustomException {
 		try {
 			PreparedStatement pst = dataSource.getH2DataSource()
-					.getConnection().prepareStatement("Insert into sa.temporal"
+					.getConnection().prepareStatement("Insert into temporal"
 							+ "(observation_time, temperature,"
 							+ "weather_descriptions, wind_speed, wind_degree,"
-							+ "wind_dir, pressure, precip, humidity) "
-							+ "values (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+							+ "wind_dir, pressure, precip, humidity, city) "
+							+ "values (?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 			pst.setString(1, w.getObservation_time());
 			pst.setInt(2, w.getTemperature());
 			pst.setString(3, w.getWeather_descriptions().get(0));
@@ -41,6 +41,7 @@ public class WeatherDAOImpl implements WeatherDAO{
 			pst.setInt(7, w.getPressure());
 			pst.setDouble(8, w.getPrecip());
 			pst.setInt(9, w.getHumidity());
+			pst.setString(10, w.getCity());
 			pst.executeUpdate();
 			ResultSet rst = pst.getGeneratedKeys();
 			if (rst != null) {
@@ -63,7 +64,7 @@ public class WeatherDAOImpl implements WeatherDAO{
 		List<Weather> ws = null;
 		try {
 			rst = dataSource.getH2DataSource().getConnection()
-					.createStatement().executeQuery("Select * From sa.temporal");
+					.createStatement().executeQuery("Select * From temporal");
 			if (rst != null) {
 				ws = new ArrayList<>();
 				while(rst.next()) {
@@ -94,6 +95,7 @@ public class WeatherDAOImpl implements WeatherDAO{
 			w.setPressure(rst.getInt("pressure"));
 			w.setPrecip(rst.getDouble("precip"));
 			w.setHumidity(rst.getInt("humidity"));
+			w.setCity(rst.getString("city"));
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("Error al crear un Weather");
 			throw ce;

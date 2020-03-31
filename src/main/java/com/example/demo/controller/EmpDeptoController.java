@@ -1,46 +1,27 @@
 package com.example.demo.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.Base64;
 import java.util.List;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
-import com.example.demo.SpringbootApplication;
 import com.example.demo.exception.CustomException;
 import com.example.demo.modelo.Departamento;
 import com.example.demo.modelo.Empleado;
-import com.example.demo.modelo.Weather;
 import com.example.demo.service.EmpDeptoService;
-import com.example.demo.service.WeatherService;
-import com.example.demo.util.ApiPropertyUtil;
-import com.google.gson.Gson;
+
+import io.swagger.annotations.ApiOperation;
 
 @RestController
-public class Controller {
+public class EmpDeptoController {
 
 	@Autowired
 	private EmpDeptoService empDeptoService;
 
-	@Autowired
-	private RestTemplate rest;
-	
-	@Autowired
-	private WeatherService weatherService;
-	
-	private final String RUTA = "src/main/resources/api.properties";
-	
+	@ApiOperation(value="Devuelve los empleados")
 	@GetMapping("/empleados")
 	public ResponseEntity<List<Empleado>> getEmpleados() throws CustomException{
 		List<Empleado> empleados = empDeptoService.getEmpleados();
@@ -55,6 +36,7 @@ public class Controller {
 		}
 	}
 	
+	@ApiOperation(value="Devuelve los departamentos")
 	@GetMapping("/departamentos")
 	public ResponseEntity<List<Departamento>> getDepartamentos() throws CustomException{
 		List<Departamento> deptos = empDeptoService.getDepartamento();
@@ -69,6 +51,7 @@ public class Controller {
 		}
 	}
 	
+	@ApiOperation(value="Devuelve los secretarios")
 	@GetMapping("/secretarios")
 	public ResponseEntity<List<Empleado>> getSecretarios() throws CustomException{
 		List<Empleado> secretarios = empDeptoService.getSecretarios();
@@ -83,6 +66,7 @@ public class Controller {
 		}
 	}
 	
+	@ApiOperation(value="Devuelve el nombre y salario de los empleados")
 	@GetMapping("/empNomSal")
 	public ResponseEntity<List<Empleado>> getNomSal() throws CustomException{
 		List<Empleado> empleados = empDeptoService.getNomSal();
@@ -97,6 +81,7 @@ public class Controller {
 		}
 	}
 	
+	@ApiOperation(value="Devuelve los empleados en orden")
 	@GetMapping("/empleadosOrdenados")
 	public ResponseEntity<List<Empleado>> getEmpleadosOrd() throws CustomException{
 		List<Empleado> empleados = empDeptoService.getEmpleadosOrd();
@@ -111,6 +96,7 @@ public class Controller {
 		}
 	}
 	
+	@ApiOperation(value="Devuelve el nombre de los empleados")
 	@GetMapping("/nombreDepto")
 	public ResponseEntity<List<Departamento>> getNombreDepartamento() throws CustomException{
 		List<Departamento> deptos = empDeptoService.getNombreDepartamento();
@@ -125,6 +111,7 @@ public class Controller {
 		}
 	}
 	
+	@ApiOperation("Devuelve el nombre y cargo del empleado")
 	@GetMapping("/empNomCargo")
 	public ResponseEntity<List<Empleado>> getNomCargo() throws CustomException{
 		List<Empleado> empleados = empDeptoService.getNomCargo();
@@ -139,6 +126,7 @@ public class Controller {
 		}
 	}
 	
+	@ApiOperation(value="Devuelve salario y comisión de los empleados del dpto. 2000")
 	@GetMapping("/empSalCom2000")
 	public ResponseEntity<List<Empleado>> getSalCom2000() throws CustomException{
 		List<Empleado> empleados = empDeptoService.getSalCom2000();
@@ -153,6 +141,7 @@ public class Controller {
 		}
 	}
 	
+	@ApiOperation("Devuelve las comisiones del empleado")
 	@GetMapping("/comisiones")
 	public ResponseEntity<List<Empleado>> getComisiones() throws CustomException{
 		List<Empleado> empleados = empDeptoService.getComisiones();
@@ -167,55 +156,4 @@ public class Controller {
 		}
 	}
 	
-	@GetMapping("/weather")
-	public ResponseEntity<Weather> nuevoWeather() throws CustomException{
-		ApiPropertyUtil apu = new ApiPropertyUtil(RUTA);
-		String jsonString = rest.getForObject(apu.getPropiedad("Url"), String.class);
-		Weather w = null;
-		Gson gson = new Gson();
-		try {
-			JSONObject json = new JSONObject(jsonString).getJSONObject("current");
-			w = gson.fromJson(json.toString(), Weather.class);
-			w = weatherService.nuevoWeather(w);
-		} catch (JSONException e) {
-			CustomException ce = new CustomException("Error en el JSON: " + e);
-			LoggerFactory.getLogger(SpringbootApplication.class)
-				.warn(ce.getMessage());
-			throw ce;
-		}
-		if (w == null) {
-			return new ResponseEntity<>(w, HttpStatus.NOT_FOUND);
-		} else {
-			return ResponseEntity.ok(w);
-		}
-	}
-	
-	@GetMapping("/datosExcel")
-	public ResponseEntity<String> crearNuevoExcel() throws CustomException{
-		weatherService.crearNuevoExcel();
-		return new ResponseEntity<>("Fichero xls creado", HttpStatus.CREATED);
-	}
-
-
-	@GetMapping("/exportExcel")
-	public ResponseEntity<?> exportarExcel() throws CustomException{
-		try {
-			File fichero = new File("fichero.xls");
-			FileInputStream in = new FileInputStream(fichero);
-			HttpHeaders headers = new HttpHeaders();
-			headers.setContentType(MediaType.parseMediaType("application/vnd.ms-excel"));
-			headers.add("Content-Disposition", "attachment; filename=fichero.xls");
-			byte[] bytes = new byte[(int)fichero.length()];
-			in.read(bytes);
-			String ficheroDecodificado = Base64.getEncoder().encodeToString(bytes);
-			ResponseEntity<String> re = new ResponseEntity<>(ficheroDecodificado, headers, HttpStatus.CREATED);
-			in.close();
-			return re;
-		} catch(Exception e) {
-			CustomException ce = new CustomException("Error al exportar el xls: " + e);
-			LoggerFactory.getLogger(SpringbootApplication.class)
-				.warn(ce.getMessage());
-			throw ce;
-		}
-	}
 }
