@@ -1,13 +1,14 @@
 package com.example.demo.daoImpl;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
 //import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sql.DataSource;
 
 //import javax.sql.DataSource;
 
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.SpringbootApplication;
-import com.example.demo.config.ConexionConfig;
 import com.example.demo.dao.EmpDeptoDAO;
 import com.example.demo.exception.CustomException;
 import com.example.demo.modelo.Departamento;
@@ -25,18 +25,18 @@ import com.example.demo.modelo.Empleado;
 @Repository
 public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 
-	//@Autowired
-	//public DataSource derbyDataSource
-	
 	@Autowired
-	public ConexionConfig config;
+	public DataSource derbyDataSource;
+	
+	/*@Autowired
+	public ConexionConfig config;*/
 
 	@Override
 	public List<Empleado> getEmpleados() throws CustomException {
 		ResultSet rst;
 		List<Empleado> empleados = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement().executeQuery("Select * From empleados");
+			rst = derbyDataSource.getConnection().createStatement().executeQuery("Select * From empleados");
 			if (rst != null) {
 				/*ResultSetMetaData rsmd = rst.getMetaData();
 				int i = rsmd.getColumnCount();
@@ -50,14 +50,14 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 				}
 			}
 			rst.close();
-			config.getH2DataSource().getConnection().close();
+			derbyDataSource.getConnection().close();
+			return empleados;
 		} catch (Exception e) {
 			e.printStackTrace();
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return empleados;
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Departamento> deptos = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement().executeQuery("Select * From Departamentos");
+			rst = derbyDataSource.getConnection().createStatement().executeQuery("Select * From Departamentos");
 			if (rst != null) {
 				deptos = new ArrayList<>();
 				while (rst.next()) {
@@ -73,13 +73,13 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 				}
 			}
 			rst.close();
-			config.getH2DataSource().getConnection().close();
+			derbyDataSource.getConnection().close();
+			return deptos;
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return deptos;
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Empleado> secretarios = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement()
+			rst = derbyDataSource.getConnection().createStatement()
 					.executeQuery("Select * From Empleados Where Lower(cargoE)='secretaria'");
 			if (rst != null) {
 				secretarios = new ArrayList<>();
@@ -96,13 +96,13 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 				}
 			}
 			rst.close();
-			config.getH2DataSource().getConnection().close();
+			derbyDataSource.getConnection().close();
+			return secretarios;
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return secretarios;
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Empleado> empleados = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement()
+			rst = derbyDataSource.getConnection().createStatement()
 					.executeQuery("Select nomEmp,salEmp From Empleados");
 			if (rst != null) {
 				empleados = new ArrayList<>();
@@ -118,14 +118,14 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 					empleados.add((Empleado) crear(new Empleado(), "NomEmp,SalEmp", rst, "String,Double"));
 				}
 			}
-			config.getH2DataSource().getConnection().close();
+			derbyDataSource.getConnection().close();
 			rst.close();
+			return empleados;
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return empleados;
 	}
 
 	@Override
@@ -133,7 +133,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Empleado> empleados = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement()
+			rst = derbyDataSource.getConnection().createStatement()
 					.executeQuery("Select * From Empleados Order By nomEmp");
 			if (rst != null) {
 				empleados = new ArrayList<>();
@@ -142,13 +142,13 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 				}
 			}
 			rst.close();
-			config.getH2DataSource().getConnection().close();
+			derbyDataSource.getConnection().close();
+			return empleados;
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return empleados;
 	}
 
 	@Override
@@ -156,7 +156,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Departamento> deptos = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement()
+			rst = derbyDataSource.getConnection().createStatement()
 					.executeQuery("Select nombreDepto From Departamentos");
 			if (rst != null) {
 				deptos = new ArrayList<>();
@@ -165,13 +165,13 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 				}
 			}
 			rst.close();
-			config.getH2DataSource().getConnection().close();
+			derbyDataSource.getConnection().close();
+			return deptos;
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return deptos;
 	}
 
 	@Override
@@ -179,7 +179,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Empleado> empleados = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement()
+			rst = derbyDataSource.getConnection().createStatement()
 					.executeQuery("Select nomEmp,cargoE From Empleados Order By salEmp");
 			if (rst != null) {
 				empleados = new ArrayList<>();
@@ -188,13 +188,13 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 				}
 			}
 			rst.close();
-			config.getH2DataSource().getConnection().close();
+			derbyDataSource.getConnection().close();
+			return empleados;
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return empleados;
 	}
 
 	@Override
@@ -202,7 +202,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Empleado> empleados = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement()
+			rst = derbyDataSource.getConnection().createStatement()
 					.executeQuery("Select salEmp,comisionE From Empleados Where codDepto='2000' Order By comisionE");
 			if (rst != null) {
 				empleados = new ArrayList<>();
@@ -211,13 +211,13 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 				}
 			}
 			rst.close();
-			config.getH2DataSource().getConnection().close();
+			derbyDataSource.getConnection().close();
+			return empleados;
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return empleados;
 	}
 
 	@Override
@@ -225,7 +225,7 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		ResultSet rst;
 		List<Empleado> empleados = null;
 		try {
-			rst = config.getH2DataSource().getConnection().createStatement().executeQuery("Select comisionE From Empleados");
+			rst = derbyDataSource.getConnection().createStatement().executeQuery("Select comisionE From Empleados");
 			if (rst != null) {
 				empleados = new ArrayList<>();
 				while (rst.next()) {
@@ -233,13 +233,13 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 				}
 			}
 			rst.close();
-			config.getH2DataSource().getConnection().close();
+			derbyDataSource.getConnection().close();
+			return empleados;
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("Fallo en la creación de la query: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return empleados;
 	}
 
 	// Método para crear un empleado a través de un ResultSet
@@ -258,13 +258,13 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 			e.setComisionE(rst.getDouble("comisionE"));
 			e.setPassword(rst.getString("password"));
 			e.setCiudad(rst.getString("ciudad"));
+			return e;
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 			CustomException ce = new CustomException("No se pudo crear el empleado: " + e1);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return e;
 	}
 
 	// Método para crear un departamento mediante un ResultSet
@@ -275,12 +275,12 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 			d.setNombreDepto(rst.getString("nombreDepto"));
 			d.setCiudad(rst.getString("ciudad"));
 			d.setCodDirector(rst.getString("codDirector"));
+			return d;
 		} catch (SQLException e) {
 			CustomException ce = new CustomException("No se pudo crear el departamento: " + e);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
 		}
-		return d;
 	}
 
 	// Sobrecarga del método crearEmpleado, sólo mete los campos pedidos
@@ -376,24 +376,12 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 				 * transformarlo en Char, una vez se haya invocado se hace un casting a String y
 				 * se usa el método de String .charAt(0)
 				 */
-			} catch (IllegalAccessException e) {
-				CustomException ce = new CustomException(e.toString());
-				LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
-				throw ce;
-			} catch (IllegalArgumentException e) {
-				CustomException ce = new CustomException(e.toString());
-				LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
-				throw ce;
-			} catch (InvocationTargetException e) {
+			} catch (Exception e) {
 				CustomException ce = new CustomException(e.toString());
 				LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 				throw ce;
 			}
-		} catch (NoSuchMethodException e) {
-			CustomException ce = new CustomException("Método no encontrado: " + e);
-			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
-			throw ce;
-		} catch (SecurityException e) {
+		} catch (Exception e) {
 			CustomException ce = new CustomException(e.toString());
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;

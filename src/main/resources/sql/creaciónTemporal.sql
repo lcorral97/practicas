@@ -1,3 +1,5 @@
+Drop table temporal;
+
 Create table temporal (
 id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
 observation_time varchar(8),

@@ -15,6 +15,7 @@ import com.example.demo.util.PropertyUtil;
 import org.apache.ibatis.jdbc.ScriptRunner;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 //import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -23,18 +24,18 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 @Configuration
 public class ConexionConfig {
 
-	private final String RUTA = "config.properties";
+	private final String RUTA = "properties/config.properties";
 	
 	@Value("classpath:" + RUTA)
 	private Resource rProp;
 	
-	@Value("classpath:creaciónTablasDptoEmp.sql")
+	@Value("classpath:sql/creaciónTablasDptoEmp.sql")
 	private Resource ctdesql;
 	
-	@Value("classpath:creaciónTemporal.sql")
+	@Value("classpath:sql/creaciónTemporal.sql")
 	private Resource ctsql;
 	
-	//@Bean(name = "derbyDataSource")
+	@Bean(name = "derbyDataSource")
 	public DataSource getH2DataSource() throws CustomException {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		PropertyUtil pu = new PropertyUtil(rProp);
@@ -65,7 +66,7 @@ public class ConexionConfig {
 		}
 	}
 
-	private void crearTablas(DriverManagerDataSource dataSource)
+	public void crearTablas(DriverManagerDataSource dataSource)
 			throws CustomException {
 		try {
 			Connection cnn = dataSource.getConnection(dataSource.getUsername(), dataSource.getPassword());

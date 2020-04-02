@@ -9,6 +9,7 @@ import com.example.demo.exception.CustomException;
 import com.example.demo.modelo.Empleado;
 import com.example.demo.service.EmpDeptoService;
 
+
 @Component
 public class NuevosDatos {
 

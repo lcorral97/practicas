@@ -13,38 +13,19 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.demo.dao.EmpDeptoDAO;
-import com.example.demo.dao.WeatherDAO;
 import com.example.demo.exception.CustomException;
 import com.example.demo.service.EmpDeptoService;
-import com.example.demo.service.EmpDeptoServiceImpl;
-import com.example.demo.service.WeatherService;
-import com.example.demo.service.WeatherServiceImpl;
+import com.example.demo.serviceImpl.EmpDeptoServiceImpl;
 
 @SpringBootTest
 @RunWith(MockitoJUnitRunner.class)
-public class SpringbootApplicationTests {
+public class EmpDeptoTests {
 
-	@InjectMocks
-	private WeatherService weatherService = new WeatherServiceImpl();
-	
 	@InjectMocks
 	private EmpDeptoService empDeptoService = new EmpDeptoServiceImpl();
 	
 	@Mock
-	private WeatherDAO weatherDao;
-	
-	@Mock
 	private EmpDeptoDAO empDeptoDAO;
-	
-	@Test
-	public void contextLoads() {
-	}
-
-	@Test
-	public void getWeathersTest() throws CustomException {
-		when(weatherDao.getWeathers()).thenReturn(new ArrayList<>());
-		assertEquals(new ArrayList<>(), weatherService.getWeathers());
-	}
 	
 	@Test
 	public void getEmpleadosTest() throws CustomException {

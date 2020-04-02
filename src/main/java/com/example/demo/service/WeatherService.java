@@ -10,4 +10,6 @@ public interface WeatherService {
 	Weather nuevoWeather(Weather w) throws CustomException;
 	List<Weather> getWeathers() throws CustomException;
 	void crearNuevoExcel() throws CustomException;
+	Weather crearWeatherDeUnJSON(String q) throws CustomException;
+	String ficheroBase64() throws CustomException;
 }

@@ -26,5 +26,7 @@ public interface EmpDeptoService {
 	List<Empleado> getSalCom2000() throws CustomException;
 	//Lista de comisiones
 	List<Empleado> getComisiones() throws CustomException;
+	//Login
+	Empleado login(String auth) throws CustomException;
 	
 }

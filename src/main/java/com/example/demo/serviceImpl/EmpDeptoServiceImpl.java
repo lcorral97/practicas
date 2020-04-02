@@ -1,5 +1,6 @@
-package com.example.demo.service;
+package com.example.demo.serviceImpl;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,17 @@ public class EmpDeptoServiceImpl implements EmpDeptoService{
 	@Override
 	public List<Empleado> getComisiones() throws CustomException{
 		return dao.getComisiones();
+	}
+
+	@Override
+	public Empleado login(String auth) throws CustomException{
+		Empleado empCorrecto = null;
+		for (Empleado e : getEmpleados()) {
+			String empCod = "Basic " + Base64.getEncoder().encodeToString((e.getNDIEmp() +":" + e.getPassword()).getBytes());
+			if (empCod.equals(auth)) {
+				empCorrecto = e;
+			}
+		}
+		return empCorrecto;
 	}
 }

@@ -1,4 +1,4 @@
-package com.example.demo.schedulingtasks;
+package com.example.demo.util;
 
 import java.io.File;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.exception.CustomException;
 
 @Component
-public class EnvioDeCorreo {
+public class EmailUtil {
 	
 	@Autowired
 	private JavaMailSender jms;
