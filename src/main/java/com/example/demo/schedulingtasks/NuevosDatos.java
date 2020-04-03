@@ -19,7 +19,7 @@ public class NuevosDatos {
 	@Autowired
 	private EmpDeptoService empDeptoService;
 	
-	@Scheduled(fixedRate = 3600000)
+	@Scheduled(fixedRate = 86400000)
 	private void guardarDatos() throws CustomException {
 		for(Empleado e : empDeptoService.getEmpleados()) {
 			weatherController.nuevoWeather(e.getCiudad());
