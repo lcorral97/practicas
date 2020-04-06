@@ -47,16 +47,21 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
 	@Override
 	public boolean comprobarToken(String jwt) throws CustomException {
-		Claims c = Jwts.parser()
-					.setSigningKey(keyStr.getBytes())
-					.parseClaimsJwt(jwt)
-					.getBody();
-		return isAValidToken(c);
+		try {
+			Claims c = Jwts.parser()
+						.setSigningKey(keyStr.getBytes())
+						.parseClaimsJws(jwt)
+						.getBody();
+			return isAValidToken(c);
+		} catch (Exception e) {
+			return false;
+		}
 	}
 
 	private boolean isAValidToken(Claims c) throws CustomException {
 		boolean valido = false;
 		if (c != null) {
+			System.out.println("JE");
 			if (System.currentTimeMillis() < c.getExpiration().getTime() &&
 					System.currentTimeMillis() > c.getIssuedAt().getTime()) {
 				for (Empleado e: empDeptoService.getEmpleados()) {
@@ -66,6 +71,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 				}
 			}
 		}
+		System.out.println("JE" + valido);
 		return valido;
 	}
 

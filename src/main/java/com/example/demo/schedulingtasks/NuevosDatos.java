@@ -8,21 +8,22 @@ import com.example.demo.controller.WeatherController;
 import com.example.demo.exception.CustomException;
 import com.example.demo.modelo.Empleado;
 import com.example.demo.service.EmpDeptoService;
+import com.example.demo.service.WeatherService;
 
 
 @Component
 public class NuevosDatos {
 
 	@Autowired
-	private WeatherController weatherController;
+	private WeatherService weatherService;
 	
 	@Autowired
 	private EmpDeptoService empDeptoService;
 	
-	@Scheduled(fixedRate = 86400000)
+	//@Scheduled(fixedRate = 86400000)
 	private void guardarDatos() throws CustomException {
 		for(Empleado e : empDeptoService.getEmpleados()) {
-			weatherController.nuevoWeather(e.getCiudad());
+			weatherService.crearWeatherDeUnJSON(e.getCiudad());
 		}
 	}
 }
