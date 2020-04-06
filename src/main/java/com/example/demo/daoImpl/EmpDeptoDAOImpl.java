@@ -2,6 +2,7 @@ package com.example.demo.daoImpl;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 //import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -384,6 +385,60 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 		} catch (Exception e) {
 			CustomException ce = new CustomException(e.toString());
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
+			throw ce;
+		}
+	}
+
+	@Override
+	public Empleado getEmpleado(String idEmp) throws CustomException {
+		PreparedStatement pst;
+		ResultSet rst;
+		Empleado e = null;
+		try {
+			pst = derbyDataSource.getConnection()
+					.prepareStatement("Select * From Empleados Where nDIEmp=?");
+			pst.setString(1, idEmp);
+			rst = pst.executeQuery();
+			if (rst != null) {
+				while (rst.next()) {
+					e = crearEmpleado(rst);
+				}
+			}
+			pst.close();
+			rst.close();
+			derbyDataSource.getConnection().close();
+			return e;
+		} catch (Exception ex) {
+			CustomException ce = new CustomException("Error al crear la query: " + ex);
+			LoggerFactory.getLogger(SpringbootApplication.class)
+				.warn(ce.getMessage());
+			throw ce;
+		}
+	}
+
+	@Override
+	public Departamento getDepartamento(String idDepto) throws CustomException {
+		PreparedStatement pst;
+		ResultSet rst;
+		Departamento d = null;
+		try {
+			pst = derbyDataSource.getConnection()
+					.prepareStatement("Select * From Departamentos Where codDepto=?");
+			pst.setString(1, idDepto);
+			rst = pst.executeQuery();
+			if (rst != null) {
+				while (rst.next()) {
+					d = crearDepartamento(rst);
+				}
+			}
+			pst.close();
+			rst.close();
+			derbyDataSource.getConnection().close();
+			return d;
+		} catch (Exception ex) {
+			CustomException ce = new CustomException("Error al crear la query: " + ex);
+			LoggerFactory.getLogger(SpringbootApplication.class)
+				.warn(ce.getMessage());
 			throw ce;
 		}
 	}

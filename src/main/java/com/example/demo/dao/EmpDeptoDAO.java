@@ -25,5 +25,9 @@ public interface EmpDeptoDAO {
 	List<Empleado> getSalCom2000() throws CustomException;
 	//Lista de comisiones
 	List<Empleado> getComisiones() throws CustomException;
+	//Empleado con id x
+	Empleado getEmpleado(String idEmp) throws CustomException;
+	//Departamento con id x
+	Departamento getDepartamento(String idDepto) throws CustomException;
 	
 }

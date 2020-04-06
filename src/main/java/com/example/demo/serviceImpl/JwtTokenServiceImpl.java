@@ -61,7 +61,6 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 	private boolean isAValidToken(Claims c) throws CustomException {
 		boolean valido = false;
 		if (c != null) {
-			System.out.println("JE");
 			if (System.currentTimeMillis() < c.getExpiration().getTime() &&
 					System.currentTimeMillis() > c.getIssuedAt().getTime()) {
 				for (Empleado e: empDeptoService.getEmpleados()) {
@@ -71,7 +70,6 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 				}
 			}
 		}
-		System.out.println("JE" + valido);
 		return valido;
 	}
 

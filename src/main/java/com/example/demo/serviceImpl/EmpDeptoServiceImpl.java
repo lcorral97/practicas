@@ -74,4 +74,14 @@ public class EmpDeptoServiceImpl implements EmpDeptoService{
 		}
 		return empCorrecto;
 	}
+
+	@Override
+	public Empleado getEmpleado(String idEmp) throws CustomException {
+		return dao.getEmpleado(idEmp);
+	}
+
+	@Override
+	public Departamento getDepartamento(String idDepto) throws CustomException {
+		return dao.getDepartamento(idDepto);
+	}
 }

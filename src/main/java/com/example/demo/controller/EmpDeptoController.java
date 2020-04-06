@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.exception.CustomException;
@@ -178,7 +179,7 @@ public class EmpDeptoController {
 		}
 	}
 	
-	@ApiOperation("Devuelve las comisiones del empleado")
+	@ApiOperation(value="Devuelve las comisiones del empleado")
 	@GetMapping("/comisiones")
 	public ResponseEntity<List<Empleado>> getComisiones(@RequestHeader("Authorization") String jwtToken) throws CustomException{
 		List<Empleado> empleados = empDeptoService.getComisiones();
@@ -197,4 +198,35 @@ public class EmpDeptoController {
 		}
 	}
 	
+	@ApiOperation(value="Devuelve un empleado con un id")
+	@GetMapping("/empleado")
+	private ResponseEntity<Empleado> getEmpleado(@RequestParam(name="id", required=true) String id,
+			@RequestHeader("Authorization") String jwtToken) throws CustomException{
+		Empleado e = empDeptoService.getEmpleado(id);
+		if (jwtTokenService.comprobarToken(jwtToken)) {
+			if (e == null) {
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			} else {
+				return ResponseEntity.ok(e);
+			}
+		} else {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
+	@ApiOperation("Devuelve un Departamento con un id")
+	@GetMapping("/departamento/{id}")
+	private ResponseEntity<Departamento> getDepartamento(@RequestParam(name="id", required=true) String id,
+			@RequestHeader("Authorization") String jwtToken) throws CustomException{
+		Departamento d = empDeptoService.getDepartamento(id);
+		if (jwtTokenService.comprobarToken(jwtToken)) {
+			if (d == null) {
+				return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+			} else {
+				return ResponseEntity.ok(d);
+			}
+		} else {
+			return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+		}
+	}
 }
