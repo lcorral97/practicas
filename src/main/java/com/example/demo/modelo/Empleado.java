@@ -18,7 +18,16 @@ public class Empleado {
 	private String codDepto;  //private Departamento depto;
 	private double comisionE; //private List<Empleado> empleadosSub;
 	private String ciudad;
+	private String coord;
 	private String password;
+	
+	public String getCiudad() {
+		return ciudad;
+	}
+
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	}
 	
 	public String getPassword() {
 		return password;
@@ -26,14 +35,6 @@ public class Empleado {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getCiudad() {
-		return ciudad;
-	}
-
-	public void setCiudad(String ciudad) {
-		this.ciudad = ciudad;
 	}
 
 	public String getNDIEmp() {
@@ -126,6 +127,7 @@ public class Empleado {
 		long temp;
 		temp = Double.doubleToLongBits(comisionE);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((coord == null) ? 0 : coord.hashCode());
 		result = prime * result + ((fecIncorporacion == null) ? 0 : fecIncorporacion.hashCode());
 		result = prime * result + ((fecNac == null) ? 0 : fecNac.hashCode());
 		result = prime * result + ((jefeId == null) ? 0 : jefeId.hashCode());
@@ -163,6 +165,11 @@ public class Empleado {
 		} else if (!codDepto.equals(other.codDepto))
 			return false;
 		if (Double.doubleToLongBits(comisionE) != Double.doubleToLongBits(other.comisionE))
+			return false;
+		if (coord == null) {
+			if (other.coord != null)
+				return false;
+		} else if (!coord.equals(other.coord))
 			return false;
 		if (fecIncorporacion == null) {
 			if (other.fecIncorporacion != null)
@@ -205,10 +212,18 @@ public class Empleado {
 	public String toString() {
 		return "Empleado [nDIEmp=" + nDIEmp + ", nomEmp=" + nomEmp + ", sexEmp=" + sexEmp + ", fecNac=" + fecNac
 				+ ", fecIncorporacion=" + fecIncorporacion + ", salEmp=" + salEmp + ", cargoE=" + cargoE + ", jefeId="
-				+ jefeId + ", codDepto=" + codDepto + ", comisionE=" + comisionE + ", ciudad=" + ciudad + ", password="
-				+ password + "]";
+				+ jefeId + ", codDepto=" + codDepto + ", comisionE=" + comisionE + ", ciudad=" + ciudad + ", coord="
+				+ coord + ", password=" + password + "]";
 	}
 	
+	public String getCoord() {
+		return coord;
+	}
+
+	public void setCoord(String coord) {
+		this.coord = coord;
+	}
+
 	public Empleado() {
 		super();
 		// TODO Auto-generated constructor stub

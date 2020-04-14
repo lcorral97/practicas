@@ -259,9 +259,9 @@ public class EmpDeptoDAOImpl implements EmpDeptoDAO {
 			e.setComisionE(rst.getDouble("comisionE"));
 			e.setPassword(rst.getString("password"));
 			e.setCiudad(rst.getString("ciudad"));
+			e.setCoord(rst.getString("coord"));
 			return e;
 		} catch (SQLException e1) {
-			e1.printStackTrace();
 			CustomException ce = new CustomException("No se pudo crear el empleado: " + e1);
 			LoggerFactory.getLogger(SpringbootApplication.class).warn(ce.getMessage());
 			throw ce;
