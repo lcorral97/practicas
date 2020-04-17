@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Tue Apr 14 08:58:42 CEST 2020:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0171-777b-9e25-000010751b48 
-on database directory C:\Users\lcorral\Desktop\JAVA\springboot\derbyDB with class loader java.net.URLClassLoader@59dfe405 
+Fri Apr 17 10:38:13 CEST 2020:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0171-8749-ccda-0000106493c8 
+on database directory C:\Users\lcorral\Desktop\JAVA\springboot\derbyDB with class loader java.net.URLClassLoader@5a5b1ae0 
 Loaded from file:/C:/Users/lcorral/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_73-b02

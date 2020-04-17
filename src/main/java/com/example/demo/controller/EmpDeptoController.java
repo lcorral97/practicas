@@ -218,7 +218,7 @@ public class EmpDeptoController {
 	}
 	
 	@ApiOperation("Devuelve un Departamento con un id")
-	@GetMapping("/departamento/{id}")
+	@GetMapping("/departamento")
 	private ResponseEntity<Departamento> getDepartamento(@RequestParam(name="id", required=true) String id,
 			@RequestHeader("Authorization") String jwtToken) throws CustomException{
 		Departamento d = empDeptoService.getDepartamento(id);

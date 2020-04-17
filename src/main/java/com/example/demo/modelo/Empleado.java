@@ -2,9 +2,9 @@ package com.example.demo.modelo;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+//import com.fasterxml.jackson.annotation.JsonInclude;
 
-@JsonInclude(JsonInclude.Include.NON_DEFAULT)
+//@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class Empleado {
 
 	private String nDIEmp;
